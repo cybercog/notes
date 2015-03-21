@@ -8,6 +8,7 @@ use yii\helpers\Url;
             <h2><?= Html::a('Заметка ' . ($noteNumber + 1), ['note/view', 'id' => $note->id]) ?></h2>
             <p>Имя: <?= Html::encode($note->name) ?></p>
             <p>Описание: <?= Html::encode($note->description) ?></p>
+            <p>Видна всем: <?= Html::encode($note->public) ?></p>
         </div>
     <?php endforeach ?>
 </div>

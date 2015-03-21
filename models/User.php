@@ -127,4 +127,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function getNotes()
+    {
+        return $this->hasMany(Order::className(), ['user_id' => 'id']);
+    }
 }

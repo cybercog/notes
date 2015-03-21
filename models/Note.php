@@ -12,7 +12,10 @@ class Note extends ActiveRecord
             ['name', 'required'],
             ['name', 'string', 'max' => 255],
 
-            ['description', 'string', 'max' => 5000]
+            ['description', 'string', 'max' => 5000],
+
+            ['public', 'required'],
+            ['public', 'default', 'value' => 1],
         ];
     }
 
@@ -20,7 +23,13 @@ class Note extends ActiveRecord
     {
         return [
             'name' => 'Название',
-            'description' => 'Описание'
+            'description' => 'Описание',
+            'public' => 'Видна всем'
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

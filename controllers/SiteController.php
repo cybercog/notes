@@ -54,6 +54,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        Yii::$app->authManager->revoke(Yii::$app->authManager->getRole('admin'), Yii::$app->user->getId());
         return $this->render('index');
     }
 
