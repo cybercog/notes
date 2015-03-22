@@ -5,9 +5,6 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -42,7 +39,7 @@ AppAsset::register($this);
                 $navItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
             } else {
                 $navItems[] = ['label' => 'Профиль (' . Yii::$app->user->identity->name . ')', 'items' => [
-                    ['label' => 'Изменить', 'url' => ['/site/index']],
+                    ['label' => 'Изменить', 'url' => ['/site/profile']],
                     ['label' => 'Выход',
                         'url' => ['/site/logout'],
                         'linkOptions' => ['data-method' => 'post']

@@ -28,7 +28,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'profile'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -155,6 +155,20 @@ class SiteController extends Controller
         }
 
         return $this->render('resetPassword', ['model' => $model]);
+    }
+
+    public function actionProfile()
+    {
+        $user = Yii::$app->user->identity;
+        $profileModel = new \app\models\ProfileForm;
+        $profileModel->attributes = $user->attributes;
+
+        if ($profileModel->load(Yii::$app->request->post()) && $profileModel->editUser($user)) {
+            Yii::$app->session->setFlash('profileChanged');
+            return $this->refresh();
+        }
+
+        return $this->render('profile', ['profileModel' => $profileModel]);
     }
 
     public function actionError()
