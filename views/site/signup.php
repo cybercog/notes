@@ -2,12 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \app\models\SignupForm */
-
 $this->title = 'Регистрация';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 

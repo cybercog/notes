@@ -25,7 +25,7 @@ class NoteController extends Controller
 
     public function actionIndex()
     {
-        $notes = Note::find()->all();
+        $notes = Note::findAll(['visibility' => 1]);
 
         return $this->render('index', ['notes' => $notes]);
     }
@@ -43,24 +43,19 @@ class NoteController extends Controller
 
     public function actionCreate()
     {
-        if (Yii::$app->user->can('createNote')) {
-            $note = new Note();
-            $note->public = 1;
+        $note = new Note();
 
-            if ($note->load(Yii::$app->request->post()) && $note->validate()) {
-                if (Yii::$app->user->isGuest) {
-                    $note->save(false);
-                } else {
-                    $note->link('user', Yii::$app->user->identity);
-                }
-
-                return $this->redirect(['view', 'id' => $note->id]);
+        if ($note->load(Yii::$app->request->post()) && $note->validate()) {
+            if (Yii::$app->user->isGuest) {
+                $note->save(false);
+            } else {
+                $note->link('user', Yii::$app->user->identity);
             }
 
-            return $this->render('create', ['note' => $note]);
-        } else {
-            throw new ForbiddenHttpException;
+            return $this->redirect(['view', 'id' => $note->id]);
         }
+
+        return $this->render('create', ['note' => $note]);
     }
 
     public function actionEdit($id)

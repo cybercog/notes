@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
+use app\models\Note;
 
 class SiteController extends Controller
 {
@@ -54,13 +55,25 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        Yii::$app->authManager->revoke(Yii::$app->authManager->getRole('admin'), Yii::$app->user->getId());
-        return $this->render('index');
+        return Yii::$app->user->isGuest ?
+            $this->redirect(['note/index']) :
+            $this->redirect(['site/home']);
+    }
+
+    public function actionHome()
+    {
+        $notes = Note::findAll(['user_id' => Yii::$app->user->identity->id]);
+
+        return $this->render('index', ['notes' => $notes]);
     }
 
     public function actionContact()
     {
         $model = new ContactForm();
+        if (!Yii::$app->user->isGuest) {
+            $model->name = Yii::$app->user->identity->name;
+            $model->email = Yii::$app->user->identity->email;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['supportEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');

@@ -3,12 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\ContactForm */
-
 $this->title = 'Обратная связь';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 

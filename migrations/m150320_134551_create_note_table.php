@@ -12,7 +12,7 @@ class m150320_134551_create_note_table extends Migration
             'user_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING . ' NOT NULL',
             'description' => Schema::TYPE_TEXT . " NOT NULL DEFAULT ''",
-            'public' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1',
+            'visibility' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1', //0 - private, 1 - public, 2 - public, but not listed
             'FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE'
         ], 'Engine=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
     }

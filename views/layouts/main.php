@@ -32,19 +32,28 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+
+            $navItems = [
+                ['label' => 'О нас', 'url' => ['/site/about']],
+                ['label' => 'Обратная связь', 'url' => ['/site/contact']],
+            ];
+            if (Yii::$app->user->isGuest) {
+                $navItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+                $navItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
+            } else {
+                $navItems[] = ['label' => 'Профиль (' . Yii::$app->user->identity->name . ')', 'items' => [
+                    ['label' => 'Изменить', 'url' => ['/site/index']],
+                    ['label' => 'Выход',
+                        'url' => ['/site/logout'],
+                        'linkOptions' => ['data-method' => 'post']
+                    ]
+                ]];
+            }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Главная', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->name . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
+                'items' => $navItems
             ]);
+
             NavBar::end();
         ?>
 

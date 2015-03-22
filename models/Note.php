@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 class Note extends ActiveRecord
@@ -14,8 +15,14 @@ class Note extends ActiveRecord
 
             ['description', 'string', 'max' => 5000],
 
-            ['public', 'required'],
-            ['public', 'default', 'value' => 1],
+            ['visibility', 'required'],
+            ['visibility', 'integer'],
+            ['visibility', 'default', 'value' => 1],
+            ['visibility', function ($attribute, $params) {
+                if ( !(Yii::$app->user->isGuest && in_array($this->$attribute, [1, 2]) || !Yii::$app->user->isGuest && in_array($this->$attribute, [0, 1, 2]))) {
+                    $this->addError($attribute, 'Недопустимый уровень видимости.' . $this->$attribute);
+                }
+            }]
         ];
     }
 
@@ -24,7 +31,7 @@ class Note extends ActiveRecord
         return [
             'name' => 'Название',
             'description' => 'Описание',
-            'public' => 'Видна всем'
+            'visibility' => 'Видимость'
         ];
     }
 

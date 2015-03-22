@@ -18,6 +18,9 @@ class RbacController extends Controller
         $publicRule = new \app\rbac\PublicRule;
         $auth->add($publicRule);
 
+        $guestRule = new \app\rbac\GuestRule;
+        $auth->add($guestRule);
+
 
         //Permissions
         $viewNote = $auth->createPermission('viewNote');
@@ -35,10 +38,6 @@ class RbacController extends Controller
         $viewPublicNote->ruleName = $publicRule->name;
         $auth->add($viewPublicNote);
         $auth->addChild($viewPublicNote, $viewNote);
-
-        $createNote = $auth->createPermission('createNote');
-        $createNote->description = 'Create note';
-        $auth->add($createNote);
 
         $updateNote = $auth->createPermission('updateNote');
         $updateNote->description = 'Update note';
@@ -62,13 +61,17 @@ class RbacController extends Controller
 
 
         //Roles
+        $guest = $auth->createRole('guest');
+        $auth->add($guest);
+        $guest->ruleName = $guestRule->name;
+        $auth->addChild($guest, $viewPublicNote);
+
         $user = $auth->createRole('user');
         $auth->add($user);
         $auth->addChild($user, $viewOwnNote);
-        $auth->addChild($user, $viewPublicNote);
-        $auth->addChild($user, $createNote);
         $auth->addChild($user, $updateOwnNote);
         $auth->addChild($user, $removeOwnNote);
+        $auth->addChild($user, $guest);
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);

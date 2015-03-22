@@ -10,13 +10,16 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'authManager' => [
-            'class' => 'yii\rbac\DbManager'
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest']
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'note/index'
+                '' => 'site/index',
+                'home' => 'site/home',
+                'all' => 'note/index'
             ]
         ],
         'request' => [

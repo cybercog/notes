@@ -9,6 +9,6 @@ class PublicRule extends Rule
 
     public function execute($userId, $item, $params)
     {
-        return isset($params['note']) ? $params['note']->public === 1 : false;
+        return isset($params['note']) ? in_array($params['note']->visibility, [1, 2], true) : false;
     }
 }

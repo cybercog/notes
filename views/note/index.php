@@ -1,14 +1,17 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url;
 ?>
-<div class="row">
-    <?php foreach ($notes as $noteNumber => $note): ?>
-        <div class="col-md-3">
-            <h2><?= Html::a('Заметка ' . ($noteNumber + 1), ['note/view', 'id' => $note->id]) ?></h2>
-            <p>Имя: <?= Html::encode($note->name) ?></p>
-            <p>Описание: <?= Html::encode($note->description) ?></p>
-            <p>Видна всем: <?= Html::encode($note->public) ?></p>
-        </div>
-    <?php endforeach ?>
+<?= $this->render('/_subnav', ['cur' => 'all']) ?>
+
+<div class="nav-tabs-body">
+    <div class="row">
+        <?php foreach ($notes as $note): ?>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?= Html::a(Html::encode($note->name), ['note/view', 'id' => $note->id]) ?></div>
+                    <div class="panel-body"><?= Html::encode($note->description) ?></div>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </div>
 </div>
