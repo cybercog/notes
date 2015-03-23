@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\Note;
+use app\models\NoteSearch;
 
 class SiteController extends Controller
 {
@@ -20,7 +21,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'profile', 'home'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -28,7 +29,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'profile'],
+                        'actions' => ['logout', 'profile', 'home'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,9 +63,24 @@ class SiteController extends Controller
 
     public function actionHome()
     {
-        $notes = Note::findAll(['user_id' => Yii::$app->user->identity->id]);
+        $query = Note::find();
+        $noteSearch = new NoteSearch();
+        $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['user_id' => Yii::$app->user->identity->id]);
 
-        return $this->render('index', ['notes' => $notes]);
+        $curDate = getdate();
+        $beginOfCurDay = \DateTime::createFromFormat('Y-n-j H:i:s', $curDate['year'] . '-' . $curDate['mon'] . '-' . $curDate['mday'] . ' 00:00:00')
+            ->getTimestamp();
+        $beginOfCurMonth = \DateTime::createFromFormat('Y-n-j H:i:s', $curDate['year'] . '-' . $curDate['mon'] . '-1 00:00:00')
+            ->getTimestamp();
+
+        return $this->render('home', [
+            'notes' => $noteProvider->getModels(),
+            'pagination' => $noteProvider->pagination,
+            'sort' => $noteProvider->sort,
+            'noteSearch' => $noteSearch,
+            'notesCountDay' => $query->where(['>=', 'created_at', $beginOfCurDay])->andWhere(['user_id' => Yii::$app->user->identity->id])->count(),
+            'notesCountMonth' => $query->where(['>=', 'created_at', $beginOfCurMonth])->andWhere(['user_id' => Yii::$app->user->identity->id])->count(),
+        ]);
     }
 
     public function actionContact()
@@ -165,6 +181,7 @@ class SiteController extends Controller
 
         if ($profileModel->load(Yii::$app->request->post()) && $profileModel->editUser($user)) {
             Yii::$app->session->setFlash('profileChanged');
+
             return $this->refresh();
         }
 

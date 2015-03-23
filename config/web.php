@@ -11,7 +11,13 @@ $config = [
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['guest']
+            'defaultRoles' => ['guest'],
+            'cache' => 'cache'
+        ],
+        'cache' => [
+            'class' => 'yii\caching\DbCache',
+            'db' => 'db',
+            'cacheTable' => 'cache',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -25,9 +31,6 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'kzVHkoS1trHHoMwNGJMuUtmRPzfNpJHH',
-        ],
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',

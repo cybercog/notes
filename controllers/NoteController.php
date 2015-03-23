@@ -8,6 +8,7 @@ use app\models\Note;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
+use app\models\NoteSearch;
 
 class NoteController extends Controller
 {
@@ -25,9 +26,15 @@ class NoteController extends Controller
 
     public function actionIndex()
     {
-        $notes = Note::findAll(['visibility' => 1]);
+        $noteSearch = new NoteSearch();
+        $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['visibility' => Note::VIS_PUBLIC_LISTED]);
 
-        return $this->render('index', ['notes' => $notes]);
+        return $this->render('index', [
+            'notes' => $noteProvider->getModels(),
+            'pagination' => $noteProvider->pagination,
+            'sort' => $noteProvider->sort,
+            'noteSearch' => $noteSearch
+        ]);
     }
 
     public function actionView($id)
@@ -35,7 +42,23 @@ class NoteController extends Controller
         $note = $this->findNote($id);
 
         if (Yii::$app->user->can('viewNote', ['note' => $note])) {
-            return $this->render('view', ['note' => $note]);
+            $query = Note::find();
+            $previousNote = $query->where(['<=', 'created_at', $note->created_at])
+                ->andWhere(['<', 'id', $note->id])
+                ->andWhere(['visibility' => Note::VIS_PUBLIC_LISTED])
+                ->orderBy('created_at DESC, id DESC')
+                ->one();
+            $nextNote = $query->where(['>=', 'created_at', $note->created_at])
+                ->andWhere(['>', 'id', $note->id])
+                ->andWhere(['visibility' => Note::VIS_PUBLIC_LISTED])
+                ->orderBy('created_at ASC, id ASC')
+                ->one();
+
+            return $this->render('view', [
+                'note' => $note,
+                'previousNote' => $previousNote,
+                'nextNote' => $nextNote
+            ]);
         } else {
             throw new ForbiddenHttpException;
         }
@@ -44,6 +67,7 @@ class NoteController extends Controller
     public function actionCreate()
     {
         $note = new Note();
+        $note->visibility = Note::VIS_PUBLIC_LISTED;
 
         if ($note->load(Yii::$app->request->post()) && $note->validate()) {
             if (Yii::$app->user->isGuest) {
@@ -80,7 +104,7 @@ class NoteController extends Controller
         if (Yii::$app->user->can('removeNote', ['note' => $note])) {
             $note->delete();
 
-            return $this->redirect('index');
+            return $this->redirect(Yii::$app->request->referrer);
         } else {
             throw new ForbiddenHttpException;
         }

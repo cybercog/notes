@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
 
-$this->title = 'О сайте';
+$this->title = 'О нас';
 ?>
 <p>Онлайн-заметки.</p>

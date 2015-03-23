@@ -3,9 +3,9 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Заметки пользователей';
+$this->title = 'Ваши заметки';
 ?>
-<?= $this->render('/_subnav', ['cur' => 'all']) ?>
+<?= $this->render('/_subnav', ['cur' => 'own']) ?>
 
 <div class="nav-tabs-body">
     <div class="row">
@@ -15,12 +15,10 @@ $this->title = 'Заметки пользователей';
                     <div class="col-xs-12 col-sm-6 col-md-4 inline">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <?php if (Yii::$app->user->can('updateNote', ['note' => $note])): ?>
-                                    <div class="btn-group pull-right">
-                                        <?= Html::a('', ['note/edit', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
-                                        <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
-                                    </div>
-                                <?php endif ?>
+                                <div class="btn-group pull-right">
+                                    <?= Html::a('', ['note/edit', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
+                                    <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
+                                </div>
                                 <?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?>
                             </div>
                             <div class="panel-body note-text-preview break-word"><?= mb_strimwidth(Html::encode($note->description), 0, 100, '...', 'UTF-8') ?></div>
@@ -69,6 +67,21 @@ $this->title = 'Заметки пользователей';
                             <?= $sort->link('description', ['class' => 'list-group-item']) ?>
                             <?= $sort->link('created_at', ['class' => 'list-group-item']) ?>
                         </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <div class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Статистика
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <ul class="list-group">
+                            <li class="list-group-item break-word">За день создано <?= $notesCountDay ?> заметок.</li>
+                            <li class="list-group-item break-word">За месяц создано <?= $notesCountMonth ?> заметок.</li>
                     </div>
                 </div>
             </div>
