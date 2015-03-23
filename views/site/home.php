@@ -46,7 +46,7 @@ $this->title = 'Ваши заметки';
                         <div class="panel-body">
                             <?php $form = ActiveForm::begin(['method' => 'GET']) ?>
                             <?= $form->field($noteSearch, 'name') ?>
-                            <?= $form->field($noteSearch, 'description') ?>
+                            <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
                             <?= Html::submitInput('Поиск', ['class' => 'btn btn-primary']) ?>
                             <?php ActiveForm::end() ?>
                         </div>
