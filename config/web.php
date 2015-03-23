@@ -12,20 +12,31 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest'],
-            'cache' => 'cache'
+//            'cache' => 'cache'
         ],
-        'cache' => [
-            'class' => 'yii\caching\DbCache',
-            'db' => 'db',
-            'cacheTable' => 'cache',
-        ],
+//        'cache' => [
+//            'class' => 'yii\caching\DbCache',
+//            'db' => 'db',
+//            'cacheTable' => 'cache',
+//        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
+                'contact' => 'site/contact',
+                'about' => 'site/about',
+                'edit-profile' => 'site/profile',
+                'signup' => 'site/signup',
+                'login' => 'site/login',
+                'logout' => 'site/logout',
                 'home' => 'site/home',
-                'all' => 'note/index'
+                'notes' => 'note/index',
+                'note/<id:\d+>' => 'note/view',
+                'note/create' => 'note/create',
+                'note/<id:\d+>/edit' => 'note/update',
+                'note/<id:\d+>/delete' => 'note/delete'
             ]
         ],
         'request' => [

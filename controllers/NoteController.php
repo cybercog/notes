@@ -18,7 +18,7 @@ class NoteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['delete']
                 ],
             ]
         ];
@@ -82,7 +82,7 @@ class NoteController extends Controller
         return $this->render('create', ['note' => $note]);
     }
 
-    public function actionEdit($id)
+    public function actionUpdate($id)
     {
         $note = $this->findNote($id);
 

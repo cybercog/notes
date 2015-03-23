@@ -17,8 +17,8 @@ $this->title = 'Заметки пользователей';
                             <div class="panel-heading">
                                 <?php if (Yii::$app->user->can('updateNote', ['note' => $note])): ?>
                                     <div class="btn-group pull-right">
-                                        <?= Html::a('', ['note/edit', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
-                                        <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
+                                        <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
+                                        <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'delete']) ?>
                                     </div>
                                 <?php endif ?>
                                 <?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?>
