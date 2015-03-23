@@ -33,7 +33,8 @@ class NoteSearch extends Note
                 ]
             ],
             'pagination' => [
-                'pageSize' => 10
+                'pageSize' => 10,
+                'defaultPageSize' => 10
             ]
         ]);
 

@@ -87,8 +87,7 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         if (!Yii::$app->user->isGuest) {
-            $model->name = Yii::$app->user->identity->name;
-            $model->email = Yii::$app->user->identity->email;
+            $model->attributes = Yii::$app->user->identity->toArray();
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['supportEmail'])) {

@@ -24,6 +24,13 @@ class ContactForm extends Model
         ];
     }
 
+    public function scenarios()
+    {
+        return [
+            'default' => ['name', 'email']
+        ];
+    }
+
     public function attributeLabels()
     {
         return [
