@@ -8,7 +8,7 @@ $this->title = 'Ваши заметки';
 ?>
 <?= $this->render('/_subnav', ['cur' => 'own']) ?>
 
-<?php Pjax::begin() ?>
+<?php Pjax::begin(['timeout' => 5000]) ?>
 <div class="nav-tabs-body">
     <div class="row">
         <div class="col-md-9">
@@ -49,7 +49,11 @@ $this->title = 'Ваши заметки';
                             <?php $form = ActiveForm::begin(['method' => 'GET','options' => ['data-pjax' => '1']]) ?>
                                 <?= $form->field($noteSearch, 'name') ?>
                                 <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
-                                <?= Html::submitInput('Поиск', ['class' => 'btn btn-primary']) ?>
+
+                                <div class="form-group">
+                                    <?= Html::submitInput('Поиск', ['class' => 'btn btn-info']) ?>
+                                    <?= Html::a('Сбросить', [''], ['class' => 'btn btn-info']) ?>
+                                </div>
                             <?php ActiveForm::end() ?>
                         </div>
                     </div>

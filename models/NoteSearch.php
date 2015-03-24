@@ -47,17 +47,25 @@ class NoteSearch extends Note
         }
 
         $noteProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => Note::find(),
             'sort' => [
                 'attributes' => [
                     'name' => [
                         'asc' => ['note.name' => SORT_ASC],
                         'desc' => ['note.name' => SORT_DESC],
+                        'label' => $this->getAttributeLabel('name')
                     ],
-                    'description',
-                    'created_at' => ['default' => SORT_DESC]
+                    'description' => [
+                        'label' => $this->getAttributeLabel('description')
+                    ],
+                    'created_at' => [
+                        'default' => SORT_DESC,
+                        'label' => $this->getAttributeLabel('created_at')
+                    ]
                 ],
-                'defaultOrder' => ['created_at' => SORT_DESC]
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC
+                ]
             ],
             'pagination' => [
                 'pageSize' => 9,

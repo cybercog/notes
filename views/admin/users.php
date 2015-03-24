@@ -6,7 +6,7 @@ use yii\helpers\Html;
 
 echo $this->render('_nav', ['cur' => 'users']);
 
-Pjax::begin();
+Pjax::begin(['timeout' => 5000]);
 echo GridView::widget([
     'dataProvider' => $userProvider,
     'filterModel' => $userSearch,
