@@ -18,7 +18,7 @@ class NoteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['delete']
+                    'delete' => ['post']
                 ],
             ]
         ];
@@ -92,7 +92,7 @@ class NoteController extends Controller
                 return $this->redirect(['view', 'id' => $note->id]);
             }
 
-            return $this->render('edit', ['note' => $note]);
+            return $this->render('update', ['note' => $note]);
         } else {
             throw new ForbiddenHttpException;
         }

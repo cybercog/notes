@@ -17,7 +17,7 @@ class SignupForm extends Model
             ['name', 'filter', 'filter' => 'trim'],
             ['name', 'required'],
             ['name', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким именем уже существует.'],
-            ['name', 'string', 'max' => 255],
+            ['name', 'string', 'max' => 60],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],

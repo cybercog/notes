@@ -41,7 +41,9 @@ $config = [
                 'note/<id:\d+>/edit' => 'note/update',
                 'note/<id:\d+>/delete' => 'note/delete',
                 'admin/statistic' => 'admin/statistic',
-                'admin/users' => 'admin/users'
+                'admin/users' => 'admin/users',
+                'users/<id:\d+>/edit' => 'user/update',
+                'users/<id:\d+>/delete' => 'user/delete'
             ]
         ],
         'request' => [

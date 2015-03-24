@@ -26,8 +26,14 @@ class UserSearch extends User
             $query->andFilterWhere(['id' => $this->id])
                 ->andFilterWhere(['like', 'email', $this->email])
                 ->andFilterWhere(['like', 'name', $this->name])
-                ->andFilterWhere(['like', 'created_at', $this->created_at])
                 ->andFilterWhere(['like', 'role.item_name', $this['role.item_name']]);
+                if (preg_match('/[\d]{2}-[\d]{2}-[\d]{4}/', $this->created_at)) {
+                    $query->andFilterWhere([
+                        'AND',
+                        ['>', 'user.created_at', \DateTime::createFromFormat('d-m-Y H:i:s', $this->created_at . ' 00:00:00')->getTimestamp()],
+                        ['<', 'user.created_at', \DateTime::createFromFormat('d-m-Y H:i:s', $this->created_at . ' 23:59:59')->getTimestamp()]
+                    ]);
+                }
         }
 
         $userProvider = new ActiveDataProvider([
