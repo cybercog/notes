@@ -7,7 +7,7 @@ $this->title = 'Заметка - ' . Html::encode($note->name);
     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <?php if (\Yii::$app->user->can('updateNote', ['note' => $note])): ?>
+                <?php if (Yii::$app->user->can('updateNote', ['note' => $note])): ?>
                     <div class="btn-group pull-right">
                         <?= Html::a('<span class="glyphicon glyphicon-cog"></span> Изменить', ['note/edit', 'id' => $note->id], ['class' => 'btn btn-info btn-xs']) ?>
                         <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Удалить', ['note/delete', 'id' => $note->id], ['class' => 'btn btn-danger btn-xs', 'data-method' => 'post']) ?>
@@ -18,8 +18,8 @@ $this->title = 'Заметка - ' . Html::encode($note->name);
             <div class="panel-body">
                 <div class="note-text"><?= Html::encode($note->description) ?></div>
                 <hr>
-                <div class="pull-left">Добавил: <?= \app\models\User::findOne($note->user_id)->name ?></div>
-                <div class="pull-right">Время добавления: <?= (new DateTime('@' . $note->created_at))->format('Y-m-d H:i:s') ?></div>
+                <div class="pull-left">Добавил: <?= $note->user ? Html::encode($note->user->name) : 'гость' ?>.</div>
+                <div class="pull-right">Время добавления: <?= Yii::$app->formatter->asDate('@' . $note->created_at, 'php:d-m-Y') ?>.</div>
             </div>
             <div class="panel-footer">
                 <nav>

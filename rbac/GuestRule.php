@@ -1,6 +1,7 @@
 <?php
 namespace app\rbac;
 
+use Yii;
 use yii\rbac\Rule;
 
 class GuestRule extends Rule

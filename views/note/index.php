@@ -47,9 +47,10 @@ $this->title = 'Заметки пользователей';
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <?php $form = ActiveForm::begin(['method' => 'GET']) ?>
-                            <?= $form->field($noteSearch, 'name') ?>
-                            <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
-                            <?= Html::submitInput('Поиск', ['class' => 'btn btn-primary']) ?>
+                                <?= $form->field($noteSearch, 'username') ?>
+                                <?= $form->field($noteSearch, 'name') ?>
+                                <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
+                                <?= Html::submitInput('Поиск', ['class' => 'btn btn-primary']) ?>
                             <?php ActiveForm::end() ?>
                         </div>
                     </div>

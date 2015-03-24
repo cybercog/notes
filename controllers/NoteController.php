@@ -27,6 +27,7 @@ class NoteController extends Controller
     public function actionIndex()
     {
         $noteSearch = new NoteSearch();
+        $noteSearch->setScenario('all');
         $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['visibility' => Note::VIS_PUBLIC_LISTED]);
 
         return $this->render('index', [
@@ -42,7 +43,7 @@ class NoteController extends Controller
         $note = $this->findNote($id);
 
         if (Yii::$app->user->can('viewNote', ['note' => $note])) {
-            $query = Note::find();
+            $query = Note::find()->with('user');
             $previousNote = $query->where(['<=', 'created_at', $note->created_at])
                 ->andWhere(['<', 'id', $note->id])
                 ->andWhere(['visibility' => Note::VIS_PUBLIC_LISTED])

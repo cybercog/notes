@@ -62,8 +62,8 @@ class RbacController extends Controller
 
         //Roles
         $guest = $auth->createRole('guest');
-        $auth->add($guest);
         $guest->ruleName = $guestRule->name;
+        $auth->add($guest);
         $auth->addChild($guest, $viewPublicNote);
 
         $user = $auth->createRole('user');

@@ -23,39 +23,32 @@ AppAsset::register($this);
         NavBar::begin([
             'brandLabel' => 'Заметки',
             'brandUrl' => Yii::$app->homeUrl,
-            'options' => [
-                'class' => 'navbar navbar-inverse'
-            ]
+            'options' => ['class' => 'navbar navbar-inverse']
         ]);
 
         $navItems = [
             ['label' => 'О нас', 'url' => ['/site/about']],
-            ['label' => 'Обратная связь', 'url' => ['/site/contact']],
+            ['label' => 'Обратная связь', 'url' => ['/site/contact']]
         ];
         if (Yii::$app->user->isGuest) {
             $navItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
             $navItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
         } else {
+            if (Yii::$app->authManager->getAssignment('admin', Yii::$app->user->getId())) {
+                $navItems[] = ['label' => 'Панель администрирования', 'url' => ['/admin/index']];
+            }
             $navItems[] = ['label' => 'Профиль (' . Yii::$app->user->identity->name . ')', 'items' => [
                 ['label' => 'Изменить', 'url' => ['/site/profile']],
-                ['label' => 'Выход',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ]
+                ['label' => 'Выход', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
             ]];
         }
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => $navItems
-        ]);
+        echo Nav::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $navItems]);
 
         NavBar::end();
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <?= Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : []]) ?>
         <?= $content ?>
     </div>
 <?php $this->endBody() ?>

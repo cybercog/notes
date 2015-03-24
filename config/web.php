@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'name' => 'Онлайн-заметки',
-    'language' => 'ru',
+    'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -19,6 +19,9 @@ $config = [
 //            'db' => 'db',
 //            'cacheTable' => 'cache',
 //        ],
+        'formatter' => [
+            'locale' => 'ru-RU'
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -36,7 +39,8 @@ $config = [
                 'note/<id:\d+>' => 'note/view',
                 'note/create' => 'note/create',
                 'note/<id:\d+>/edit' => 'note/update',
-                'note/<id:\d+>/delete' => 'note/delete'
+                'note/<id:\d+>/delete' => 'note/delete',
+                'admin' => 'admin/index'
             ]
         ],
         'request' => [

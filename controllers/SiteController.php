@@ -65,6 +65,7 @@ class SiteController extends Controller
     {
         $query = Note::find();
         $noteSearch = new NoteSearch();
+        $noteSearch->setScenario('own');
         $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['user_id' => Yii::$app->user->identity->id]);
 
         $curDate = getdate();

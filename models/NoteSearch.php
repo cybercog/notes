@@ -7,11 +7,28 @@ use app\models\Note;
 
 class NoteSearch extends Note
 {
+    public $username;
 
     public function rules()
     {
         return [
-            [['name', 'description'], 'safe'],
+            [['name', 'description', 'username'], 'safe']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        $labels = parent::attributeLabels();
+        $labels['username'] = 'Имя пользователя';
+
+        return $labels;
+    }
+
+    public function scenarios()
+    {
+        return [
+            'all' => ['name', 'description', 'username'],
+            'own' => ['name', 'description']
         ];
     }
 
@@ -20,14 +37,32 @@ class NoteSearch extends Note
         $query = Note::find()->where($whereParams);
 
         if ($this->load($params) && $this->validate()) {
-            $query->andFilterWhere(['like', 'name', $this->name])
+            if ($this->username !== '' && $this->username !== null) {
+                $query->innerJoin('user', 'note.user_id = user.id')
+                    ->andWhere(['like', 'user.name', $this->username]);
+            }
+
+            $query->andFilterWhere(['like', 'note.name', $this->name])
                 ->andFilterWhere(['like', 'description', $this->description]);
         }
 
         $noteProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'attributes' => ['name', 'description', 'created_at'],
+                'attributes' => [
+                    'name' => [
+                        'asc' => ['note.name' => SORT_ASC],
+                        'desc' => ['note.name' => SORT_DESC],
+                        'label' => $this->getAttributeLabel('name'),
+                    ],
+                    'description' => [
+                        'label' => $this->getAttributeLabel('description')
+                    ],
+                    'created_at' => [
+                        'label' => $this->getAttributeLabel('created_at'),
+                        'default' => SORT_DESC
+                    ]
+                ],
                 'defaultOrder' => [
                     'created_at' => SORT_DESC
                 ]
