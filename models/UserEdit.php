@@ -20,19 +20,20 @@ class UserEdit extends Model
             ['name', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким именем уже существует.', 'when' => function($model) {
                 return $model->name !== $this->_oldName;
             }],
-            ['name', 'string', 'max' => 255],
+            ['name', 'string', 'max' => 60],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
+            ['email', 'string', 'max' => 255],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким почтовым адресом уже существует.', 'when' => function($model) {
                 return $model->email !== $this->_oldEmail;
             }],
 
-            ['password', 'safe'],
+            ['password', 'string', 'max' => 255],
 
             ['role', 'in', 'range' => ['user', 'admin']],
-            ['role', 'required'],
+            ['role', 'required']
         ];
     }
 

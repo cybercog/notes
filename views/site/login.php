@@ -9,8 +9,8 @@ $this->title = 'Вход';
 <div class="row">
     <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <?php $form = ActiveForm::begin() ?>
-            <?= $form->field($model, 'email') ?>
-            <?= $form->field($model, 'password')->passwordInput() ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
             <?= Html::a('Восстановление пароля', ['site/request-password-reset']) ?>.

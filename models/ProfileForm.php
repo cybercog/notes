@@ -27,16 +27,18 @@ class ProfileForm extends Model
             ['name', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким именем уже существует.', 'when' => function($model) {
                 return $model->name !== Yii::$app->user->identity->name;
             }],
-            ['name', 'string', 'max' => 255],
+            ['name', 'string', 'max' => 60],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
+            ['email', 'string', 'max' => 255],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким почтовым адресом уже существует.', 'when' => function($model) {
                 return $model->email !== Yii::$app->user->identity->email;
             }],
 
-            ['password', 'safe']
+            ['password', 'safe'],
+            ['password', 'string', 'max' => 255]
         ];
     }
 

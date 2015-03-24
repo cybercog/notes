@@ -39,7 +39,8 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
-            ['password', 'required']
+            ['password', 'required'],
+            ['password', 'string', 'max' => 255]
         ];
     }
 

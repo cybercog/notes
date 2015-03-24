@@ -21,10 +21,12 @@ class SignupForm extends Model
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
+            ['email', 'string', 'max' => 255],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким почтовым адресом уже существует.'],
 
-            ['password', 'required']
+            ['password', 'required'],
+            ['password', 'string', 'max' => 255]
         ];
     }
 

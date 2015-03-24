@@ -15,9 +15,16 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            [['email', 'password'], 'required'],
-            ['rememberMe', 'boolean'],
+            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'required'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'email'],
+
+            ['password', 'required'],
+            ['password', 'string', 'max' => 255],
             ['password', 'validatePassword'],
+
+            ['rememberMe', 'boolean']
         ];
     }
 

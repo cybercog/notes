@@ -15,10 +15,10 @@ $this->title = 'Обратная связь';
             <p>Вы можете связаться с нами с помощью формы ниже.</p>
 
             <?php $form = ActiveForm::begin() ?>
-                <?= $form->field($model, 'name') ?>
-                <?= $form->field($model, 'email') ?>
-                <?= $form->field($model, 'subject') ?>
-                <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
+                <?= $form->field($model, 'name')->textInput(['maxlength' => 60]) ?>
+                <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($model, 'subject')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($model, 'body')->textArea(['rows' => 6, 'maxlength' => 5000]) ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                     'template' => '<div class="row"><div class="col-xs-5 col-sm-3">{image}</div><div class="col-xs-7 col-sm-9">{input}</div></div>',
                 ]) ?>

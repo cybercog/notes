@@ -28,6 +28,7 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
+                'captcha' => 'site/captcha',
                 'contact' => 'site/contact',
                 'about' => 'site/about',
                 'edit-profile' => 'site/profile',

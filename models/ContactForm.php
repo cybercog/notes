@@ -18,16 +18,18 @@ class ContactForm extends Model
         return [
             [['name', 'email', 'subject', 'body'], 'required'],
 
+            ['name', 'filter', 'filter' => 'trim'],
+            ['name', 'string', 'max' => 60],
+
+            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'string', 'max' => 255],
             ['email', 'email'],
 
-            ['verifyCode', 'captcha']
-        ];
-    }
+            ['subject', 'string', 'max' => 255],
 
-    public function scenarios()
-    {
-        return [
-            'default' => ['name', 'email']
+            ['body', 'string', 'max' => 5000],
+
+            ['verifyCode', 'captcha']
         ];
     }
 
