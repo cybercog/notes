@@ -5,7 +5,7 @@ use yii\captcha\Captcha;
 
 $this->title = 'Обратная связь';
 ?>
-<h1 class="text-center"><?= Html::encode($this->title) ?></h1>
+<h1 class="text-center"><?= $this->title ?></h1>
 
 <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
     <div class="alert alert-success">Сообщение отправлено.</div>

@@ -16,7 +16,7 @@ $this->title = 'Вход';
             <?= Html::a('Восстановление пароля', ['site/request-password-reset']) ?>.
 
             <div class="form-group">
-                <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Вход', ['class' => 'btn btn-primary']) ?>
             </div>
         <?php ActiveForm::end() ?>
     </div>

@@ -11,7 +11,10 @@ use yii\bootstrap\ActiveForm;
                 [1 => 'Видна всем', 'Видна всем, но не отображается в публичном списке'] :
                 ['Не видна никому, кроме вас', 'Видна всем', 'Видна всем, но не отображается в публичном списке']
             ) ?>
-            <?= Html::submitButton($note->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => 'btn ' . ($note->isNewRecord ? 'btn-info' : 'btn-success')]) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton($note->isNewRecord ? 'Сохранить' : 'Изменить', ['class' => 'btn ' . ($note->isNewRecord ? 'btn-info' : 'btn-success')]) ?>
+            </div>
         <?php ActiveForm::end() ?>
     </div>
 </div>

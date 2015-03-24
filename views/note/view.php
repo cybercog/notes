@@ -18,7 +18,7 @@ $this->title = 'Заметка - ' . Html::encode($note->name);
             <div class="panel-body">
                 <div class="note-text"><?= Html::encode($note->description) ?></div>
                 <hr>
-                <div class="pull-left">Добавил: <?= $note->user ? Html::encode($note->user->name) : 'гость' ?>.</div>
+                <div class="pull-left">Добавил: <?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[username]' => Html::encode($note->user->name)]) : 'гость' ?>.</div>
                 <div class="pull-right">Время добавления: <?= Yii::$app->formatter->asDate('@' . $note->created_at, 'php:d-m-Y') ?>.</div>
             </div>
             <div class="panel-footer">

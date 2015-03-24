@@ -16,7 +16,10 @@ if (Yii::$app->session->hasFlash('profileChanged')) {
             <?= $form->field($profileModel, 'email') ?>
             <?= $form->field($profileModel, 'name') ?>
             <?= $form->field($profileModel, 'password')->passwordInput()->hint('Оставьте поле пустым если не хотите его менять') ?>
-            <?= Html::submitInput('Сохранить', ['class' => 'btn btn-success']) ?>
+
+            <div class="form-group">
+                <?= Html::submitInput('Сохранить', ['class' => 'btn btn-success']) ?>
+            </div>
         <?php ActiveForm::end() ?>
     </div>
 </div>
