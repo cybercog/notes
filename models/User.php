@@ -16,6 +16,21 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
+    public static function tableName()
+    {
+        return 'user';
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Ид',
+            'email' => 'Адрес электронной почты',
+            'name' => 'Имя',
+            'created_at' => 'Дата создания'
+        ];
+    }
+
     public static function findIdentity($id)
     {
         return static::findOne($id);
@@ -131,5 +146,10 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function getNotes()
     {
         return $this->hasMany(Order::className(), ['user_id' => 'id']);
+    }
+
+    public function getRole()
+    {
+        return $this->hasOne(Role::className(), ['user_id' => 'id']);
     }
 }

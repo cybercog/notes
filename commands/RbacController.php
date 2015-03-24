@@ -49,15 +49,31 @@ class RbacController extends Controller
         $auth->add($updateOwnNote);
         $auth->addChild($updateOwnNote, $updateNote);
 
-        $removeNote = $auth->createPermission('removeNote');
-        $removeNote->description = 'Remove note';
-        $auth->add($removeNote);
+        $deleteNote = $auth->createPermission('deleteNote');
+        $deleteNote->description = 'Delete note';
+        $auth->add($deleteNote);
 
-        $removeOwnNote = $auth->createPermission('removeOwnNote');
-        $removeOwnNote->description = 'Remove own note';
-        $removeOwnNote->ruleName = $authorRule->name;
-        $auth->add($removeOwnNote);
-        $auth->addChild($removeOwnNote, $removeNote);
+        $deleteOwnNote = $auth->createPermission('deleteOwnNote');
+        $deleteOwnNote->description = 'Delete own note';
+        $deleteOwnNote->ruleName = $authorRule->name;
+        $auth->add($deleteOwnNote);
+        $auth->addChild($deleteOwnNote, $deleteNote);
+
+        $viewAdminStatistic = $auth->createPermission('viewAdminStatistic');
+        $viewAdminStatistic->description = 'View admin statistic';
+        $auth->add($viewAdminStatistic);
+
+        $viewAdminUsers = $auth->createPermission('viewAdminUsers');
+        $viewAdminUsers->description = 'View admin users';
+        $auth->add($viewAdminUsers);
+
+        $editUser = $auth->createPermission('editUser');
+        $editUser->description = 'Edit user';
+        $auth->add($editUser);
+
+        $deleteUser = $auth->createPermission('deleteUser');
+        $deleteUser->description = 'Delete user';
+        $auth->add($deleteUser);
 
 
         //Roles
@@ -70,14 +86,18 @@ class RbacController extends Controller
         $auth->add($user);
         $auth->addChild($user, $viewOwnNote);
         $auth->addChild($user, $updateOwnNote);
-        $auth->addChild($user, $removeOwnNote);
+        $auth->addChild($user, $deleteOwnNote);
         $auth->addChild($user, $guest);
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);
         $auth->addChild($admin, $viewNote);
         $auth->addChild($admin, $updateNote);
-        $auth->addChild($admin, $removeNote);
+        $auth->addChild($admin, $deleteNote);
+        $auth->addChild($admin, $viewAdminStatistic);
+        $auth->addChild($admin, $viewAdminUsers);
+        $auth->addChild($admin, $editUser);
+        $auth->addChild($admin, $deleteUser);
         $auth->addChild($admin, $user);
     }
 }

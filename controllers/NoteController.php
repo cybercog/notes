@@ -102,7 +102,7 @@ class NoteController extends Controller
     {
         $note = $this->findNote($id);
 
-        if (Yii::$app->user->can('removeNote', ['note' => $note])) {
+        if (Yii::$app->user->can('deleteNote', ['note' => $note])) {
             $note->delete();
 
             return $this->redirect(Yii::$app->request->referrer);

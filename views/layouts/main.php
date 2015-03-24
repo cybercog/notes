@@ -34,8 +34,8 @@ AppAsset::register($this);
             $navItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
             $navItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
         } else {
-            if (Yii::$app->authManager->getAssignment('admin', Yii::$app->user->getId())) {
-                $navItems[] = ['label' => 'Панель администрирования', 'url' => ['/admin/index']];
+            if (Yii::$app->user->can('viewAdminStatistic')) {
+                $navItems[] = ['label' => 'Панель администрирования', 'url' => ['/admin/statistic']];
             }
             $navItems[] = ['label' => 'Профиль (' . Yii::$app->user->identity->name . ')', 'items' => [
                 ['label' => 'Изменить', 'url' => ['/site/profile']],

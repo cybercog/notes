@@ -28,4 +28,4 @@ return [
 ];
 ```
 
-Также вам необходимо создать таблицы с помощью команды `./yii migrate && ./yii migrate --migrationPath=@yii/rbac/migrations`
+Также вам необходимо создать таблицы с помощью команды `./yii migrate && ./yii migrate --migrationPath=@yii/rbac/migrations && ./yii rbac/init`

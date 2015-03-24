@@ -2,11 +2,13 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\Pjax;
 
 $this->title = 'Ваши заметки';
 ?>
 <?= $this->render('/_subnav', ['cur' => 'own']) ?>
 
+<?php Pjax::begin() ?>
 <div class="nav-tabs-body">
     <div class="row">
         <div class="col-md-9">
@@ -44,7 +46,7 @@ $this->title = 'Ваши заметки';
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
-                            <?php $form = ActiveForm::begin(['method' => 'GET']) ?>
+                            <?php $form = ActiveForm::begin(['method' => 'GET','options' => ['data-pjax' => '1']]) ?>
                                 <?= $form->field($noteSearch, 'name') ?>
                                 <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
                                 <?= Html::submitInput('Поиск', ['class' => 'btn btn-primary']) ?>
@@ -88,3 +90,4 @@ $this->title = 'Ваши заметки';
         </div>
     </div>
 </div>
+<?php Pjax::end() ?>

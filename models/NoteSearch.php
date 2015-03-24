@@ -12,7 +12,7 @@ class NoteSearch extends Note
     public function rules()
     {
         return [
-            [['name', 'description', 'username'], 'safe']
+            [['id', 'name', 'description', 'username'], 'safe']
         ];
     }
 
@@ -53,23 +53,15 @@ class NoteSearch extends Note
                     'name' => [
                         'asc' => ['note.name' => SORT_ASC],
                         'desc' => ['note.name' => SORT_DESC],
-                        'label' => $this->getAttributeLabel('name'),
                     ],
-                    'description' => [
-                        'label' => $this->getAttributeLabel('description')
-                    ],
-                    'created_at' => [
-                        'label' => $this->getAttributeLabel('created_at'),
-                        'default' => SORT_DESC
-                    ]
+                    'description',
+                    'created_at' => ['default' => SORT_DESC]
                 ],
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC
-                ]
+                'defaultOrder' => ['created_at' => SORT_DESC]
             ],
             'pagination' => [
-                'pageSize' => 10,
-                'defaultPageSize' => 10
+                'pageSize' => 9,
+                'defaultPageSize' => 9
             ]
         ]);
 

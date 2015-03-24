@@ -4,20 +4,31 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
+use app\models\UserSearch;
 
 class AdminController extends Controller
 {
-    public function beforeAction($action)
+    public function actionStatistic()
     {
-        if (Yii::$app->authManager->getAssignment('admin', Yii::$app->user->getId()) === null) {
+        if (Yii::$app->user->can('viewAdminStatistic')){
+            return $this->render('statistic');
+        } else {
             throw new ForbiddenHttpException;
         }
-
-        return parent::beforeAction($action);
     }
 
-    public function actionIndex()
+    public function actionUsers()
     {
-        return $this->render('index.php');
+        if (Yii::$app->user->can('viewAdminUsers')) {
+            $userSearch = new UserSearch;
+            $userProvider = $userSearch->search(Yii::$app->request->queryParams);
+
+            return $this->render('users', [
+                'userSearch' => $userSearch,
+                'userProvider' => $userProvider
+            ]);
+        } else {
+            throw new ForbiddenHttpException;
+        }
     }
 }
