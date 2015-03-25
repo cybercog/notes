@@ -3,9 +3,11 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use app\models\Note;
+use yii\widgets\Pjax;
 
 echo $this->render('_nav', ['cur' => 'notes']);
 
+Pjax::begin(['timeout' => 5000]);
 echo Gridview::widget([
     'options' => ['class' => 'grid-view table-responsive'],
     'dataProvider' => $noteProvider,
@@ -31,7 +33,7 @@ echo Gridview::widget([
         ],
         [
             'attribute' => 'user.name',
-            'label' => 'Имя пользователя',
+            'label' => $noteSearch->getAttributeLabel('user.name'),
             'value' => function ($model, $key, $index, $column) {
                 return isset($model->user) ? mb_strimwidth($model->user->name, 0, 20, '...', 'UTF-8') : '(не задано)';
             }
@@ -57,5 +59,5 @@ echo Gridview::widget([
         ]
     ]
 ]);
-
+Pjax::end();
 ?>

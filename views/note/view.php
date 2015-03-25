@@ -9,7 +9,7 @@ $this->title = 'Заметка - ' . Html::encode($note->name);
             <div class="panel-heading">
                 <?php if (Yii::$app->user->can('updateNote', ['note' => $note])): ?>
                     <div class="btn-group pull-right">
-                        <?= Html::a('<span class="glyphicon glyphicon-cog"></span> Изменить', ['note/edit', 'id' => $note->id], ['class' => 'btn btn-info btn-xs']) ?>
+                        <?= Html::a('<span class="glyphicon glyphicon-cog"></span> Изменить', ['note/update', 'id' => $note->id], ['class' => 'btn btn-info btn-xs']) ?>
                         <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Удалить', ['note/delete', 'id' => $note->id], ['class' => 'btn btn-danger btn-xs', 'data-method' => 'post']) ?>
                     </div>
                 <?php endif ?>

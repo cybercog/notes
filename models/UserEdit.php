@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 
 class UserEdit extends Model
@@ -57,8 +58,9 @@ class UserEdit extends Model
             }
             $user->generateAuthKey();
 
-            $user->role->item_name = $this->role;
-            $user->role->save();
+            Yii::$app->authManager->revokeAll($user->id);
+            Yii::$app->authManager->assign($this->role, $user->id);
+
             return $user->save(false);
         }
 

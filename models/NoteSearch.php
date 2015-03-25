@@ -70,7 +70,8 @@ class NoteSearch extends Note
                 'label' => $this->getAttributeLabel('name')
             ],
             'created_at' => [
-                'default' => SORT_DESC
+                'default' => SORT_DESC,
+                'label' => $this->getAttributeLabel('created_at')
             ]
         ];
         if ($isAdminPanel) {

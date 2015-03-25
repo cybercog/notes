@@ -49,7 +49,7 @@ $this->title = 'Заметки пользователей';
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <?php $form = ActiveForm::begin(['method' => 'GET','options' => ['data-pjax' => '1']]) ?>
-                                <?= $form->field($noteSearch, 'username') ?>
+                                <?= $form->field($noteSearch, 'user.name') ?>
                                 <?= $form->field($noteSearch, 'name') ?>
                                 <?= $form->field($noteSearch, 'description')->textarea(['rows' => 2]) ?>
 
