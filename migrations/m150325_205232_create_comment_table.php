@@ -3,25 +3,25 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150320_134551_create_note_table extends Migration
+class m150325_205232_create_comment_table extends Migration
 {
     public function up()
     {
-        $this->createTable('note', [
+        $this->createTable('comment', [
             'id' => Schema::TYPE_PK,
-            'user_id' => Schema::TYPE_INTEGER,
-            'name' => Schema::TYPE_STRING . ' NOT NULL',
-            'description' => Schema::TYPE_TEXT . " NOT NULL",
-            'visibility' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1', //0 - private, 1 - public, 2 - public, but not listed
+            'note_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'message' => Schema::TYPE_STRING . '(255) NOT NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'FOREIGN KEY (note_id) REFERENCES note(id) ON DELETE CASCADE',
             'FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE'
-        ], 'Engine=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
+        ], 'ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
     }
 
     public function down()
     {
-        $this->dropTable('note');
+        $this->dropTable('comment');
     }
     
     /*

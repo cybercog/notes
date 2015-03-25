@@ -152,4 +152,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->hasOne(Role::className(), ['user_id' => 'id']);
     }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['user_id' => 'id']);
+    }
 }

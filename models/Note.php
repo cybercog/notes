@@ -57,4 +57,9 @@ class Note extends ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['note_id' => 'id']);
+    }
 }
