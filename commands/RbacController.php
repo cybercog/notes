@@ -59,13 +59,13 @@ class RbacController extends Controller
         $auth->add($deleteOwnNote);
         $auth->addChild($deleteOwnNote, $deleteNote);
 
-        $viewAdminStatistic = $auth->createPermission('viewAdminStatistic');
-        $viewAdminStatistic->description = 'View admin statistic';
-        $auth->add($viewAdminStatistic);
+        $viewAdminPanelStatistic = $auth->createPermission('viewAdminPanelStatistic');
+        $viewAdminPanelStatistic->description = 'View statistic in admin panel';
+        $auth->add($viewAdminPanelStatistic);
 
-        $viewAdminUsers = $auth->createPermission('viewAdminUsers');
-        $viewAdminUsers->description = 'View admin users';
-        $auth->add($viewAdminUsers);
+        $viewAdminPanelUsers = $auth->createPermission('viewAdminPanelUsers');
+        $viewAdminPanelUsers->description = 'View users in admin panel';
+        $auth->add($viewAdminPanelUsers);
 
         $editUser = $auth->createPermission('editUser');
         $editUser->description = 'Edit user';
@@ -74,6 +74,10 @@ class RbacController extends Controller
         $deleteUser = $auth->createPermission('deleteUser');
         $deleteUser->description = 'Delete user';
         $auth->add($deleteUser);
+
+        $viewAdminPanelNotes = $auth->createPermission('viewAdminPanelNotes');
+        $viewAdminPanelNotes->description = 'View notes in admin panel';
+        $auth->add($viewAdminPanelNotes);
 
 
         //Roles
@@ -94,10 +98,11 @@ class RbacController extends Controller
         $auth->addChild($admin, $viewNote);
         $auth->addChild($admin, $updateNote);
         $auth->addChild($admin, $deleteNote);
-        $auth->addChild($admin, $viewAdminStatistic);
-        $auth->addChild($admin, $viewAdminUsers);
+        $auth->addChild($admin, $viewAdminPanelStatistic);
+        $auth->addChild($admin, $viewAdminPanelUsers);
         $auth->addChild($admin, $editUser);
         $auth->addChild($admin, $deleteUser);
+        $auth->addChild($admin, $viewAdminPanelNotes);
         $auth->addChild($admin, $user);
     }
 }

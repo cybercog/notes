@@ -20,7 +20,7 @@ class UserSearch extends User
 
     public function search($params)
     {
-        $query = User::find()->joinWith(['role' => function($query) { $query->from(['role' => 'auth_assignment']); }]);
+        $query = User::find()->joinWith(['role' => function($query) { $query->from(['role' => Role::tableName()]); }]);
 
         if ($this->load($params) && $this->validate()) {
             $query->andFilterWhere(['id' => $this->id])

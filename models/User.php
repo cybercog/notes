@@ -24,7 +24,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'Ид',
+            'id' => 'ИД',
             'email' => 'Адрес электронной почты',
             'name' => 'Имя',
             'created_at' => 'Дата создания'

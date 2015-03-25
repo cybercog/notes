@@ -45,6 +45,7 @@ class Note extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ИД',
             'name' => 'Название',
             'description' => 'Описание',
             'visibility' => 'Видимость',

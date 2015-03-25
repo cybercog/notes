@@ -11,13 +11,23 @@ echo GridView::widget([
     'dataProvider' => $userProvider,
     'filterModel' => $userSearch,
     'columns' => [
-        'id', 'name', 'email',
+        'id',
+        [
+            'attribute' => 'name',
+            'value' => function ($model, $key, $index, $column) {
+                return mb_strimwidth($model->name, 0, 20, '...', 'UTF-8');
+            }
+        ],
+        [
+            'attribute' => 'email',
+            'value' => function ($model, $key, $index, $column) {
+                return mb_strimwidth($model->email, 0, 20, '...', 'UTF-8');
+            }
+        ],
+        'role.item_name',
         [
             'attribute' => 'created_at',
             'format' => ['date', 'php:d-m-Y'],
-        ],
-        [
-            'attribute' => 'role.item_name'
         ],
         [
             'class' => ActionColumn::className(),
@@ -31,7 +41,7 @@ echo GridView::widget([
                 }
             ]
         ]
-    ],
+    ]
 ]);
 Pjax::end();
 ?>
