@@ -35,14 +35,18 @@ AppAsset::register($this);
             $navItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
         } else {
             if (Yii::$app->user->can('viewAdminPanelStatistic')) {
-                $navItems[] = ['label' => 'Панель администрирования', 'url' => ['/admin/statistic']];
+                $navItems[] = ['label' => 'Панель администрирования', 'items' => [
+                    ['label' => 'Статистика', 'url' => ['/admin/statistic']],
+                    ['label' => 'Управление пользователями', 'url' => ['/admin/users']],
+                    ['label' => 'Управление заметками', 'url' => ['/admin/notes']]
+                ]];
             }
             $navItems[] = ['label' => 'Профиль (' . Yii::$app->user->identity->name . ')', 'items' => [
                 ['label' => 'Изменить', 'url' => ['/site/profile']],
                 ['label' => 'Выход', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
             ]];
         }
-        echo Nav::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $navItems]);
+        echo Nav::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $navItems, 'activateParents' => true]);
 
         NavBar::end();
     ?>
