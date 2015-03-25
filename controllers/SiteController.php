@@ -13,6 +13,7 @@ use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\Note;
 use app\models\NoteSearch;
+use yii\web\Cookie;
 
 class SiteController extends Controller
 {
@@ -61,8 +62,19 @@ class SiteController extends Controller
             $this->redirect(['site/home']);
     }
 
-    public function actionHome()
+    public function actionHome($viewType = null)
     {
+        if ($viewType) {
+            Yii::$app->response->cookies->add(new Cookie(['name' => 'viewType', 'value' => $viewType]));
+        } else {
+            if ($cookie = Yii::$app->request->cookies->get('viewType')) {
+                $viewType = $cookie->value;
+            } else {
+                $viewType = 'panel';
+                Yii::$app->response->cookies->add(new Cookie(['name' => 'viewType', 'value' => $viewType]));
+            }
+        }
+
         $query = Note::find();
         $noteSearch = new NoteSearch();
         $noteSearch->setScenario('own');
@@ -76,6 +88,7 @@ class SiteController extends Controller
 
         return $this->render('/notes', [
             'cur' => 'own',
+            'viewType' => $viewType,
             'notes' => $noteProvider->getModels(),
             'pagination' => $noteProvider->pagination,
             'sort' => $noteProvider->sort,

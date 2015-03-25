@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use app\models\NoteSearch;
+use yii\web\Cookie;
 
 class NoteController extends Controller
 {
@@ -24,14 +25,26 @@ class NoteController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($viewType = null)
     {
+        if ($viewType) {
+            Yii::$app->response->cookies->add(new Cookie(['name' => 'viewType', 'value' => $viewType]));
+        } else {
+            if ($cookie = Yii::$app->request->cookies->get('viewType')) {
+                $viewType = $cookie->value;
+            } else {
+                $viewType = 'panel';
+                Yii::$app->response->cookies->add(new Cookie(['name' => 'viewType', 'value' => $viewType]));
+            }
+        }
+
         $noteSearch = new NoteSearch();
         $noteSearch->setScenario('all');
         $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['visibility' => Note::VIS_PUBLIC_LISTED]);
 
         return $this->render('/notes', [
             'cur' => 'all',
+            'viewType' => $viewType,
             'notes' => $noteProvider->getModels(),
             'pagination' => $noteProvider->pagination,
             'sort' => $noteProvider->sort,

@@ -18,10 +18,37 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
     <div class="nav-tabs-body">
         <div class="row">
             <div class="col-md-9">
-                <div class="row">
+                <?php if ($viewType === 'table'): ?>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <tr class="info">
+                                <th>Название</th>
+                                <th>Описание</th>
+                                <?php if ($cur === 'all'): ?>
+                                    <th>Добавил</th>
+                                <?php endif ?>
+                                <th></th>
+                            </tr>
+                            <?php foreach ($notes as $note): ?>
+                                <tr>
+                                    <th><?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?></th>
+                                    <th><?= mb_strimwidth(Html::encode($note->description), 0, 60, '...', 'UTF-8') ?></th>
+                                    <?php if ($cur === 'all'): ?>
+                                        <th><?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[username]' => Html::encode($note->user->name)]) : 'гость' ?></th>
+                                    <?php endif ?>
+                                    <th>
+                                        <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
+                                        <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
+                                    </th>
+                                </tr>
+                            <?php endforeach ?>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <div class="row">
                     <?php foreach ($notes as $note): ?>
                         <div class="col-xs-12 col-sm-6 col-md-4 inline">
-                            <div class="panel panel-default">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <?php if (($cur === 'all' && Yii::$app->user->can('updateNote', ['note' => $note])) || $cur === 'own'): ?>
                                         <div class="btn-group pull-right">
@@ -32,10 +59,14 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
                                     <?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?>
                                 </div>
                                 <div class="panel-body note-text-preview break-word"><?= mb_strimwidth(Html::encode($note->description), 0, 100, '...', 'UTF-8') ?></div>
+                                <?php if ($cur === 'all'): ?>
+                                    <div class="panel-footer">Добавил: <?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[username]' => Html::encode($note->user->name)]) : 'гость' ?>.</div>
+                                <?php endif ?>
                             </div>
                         </div>
                     <?php endforeach ?>
-                </div>
+                    </div>
+                <?php endif ?>
 
                 <div class="text-center">
                     <?= LinkPager::widget(['pagination' => $pagination, 'options' => ['class' => 'pagination pagination-sm']]) ?>
@@ -45,14 +76,30 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
             <div class="col-md-3">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-primary">
-                        <div class="panel-heading" role="tab" id="headingOne">
+                        <div class="panel-heading" role="tab" id="headingViewType">
                             <div class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseViewType" aria-expanded="true" aria-controls="collapseViewType">
+                                    Вид
+                                </a>
+                            </div>
+                        </div>
+                        <div id="collapseViewType" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingViewType">
+                            <div class="list-group">
+                                <?= Html::a('Панельный', ['', 'viewType' => 'panel'], ['class' => 'list-group-item' . ($viewType !== 'table' ? ' list-group-item-info' : '')]) ?>
+                                <?= Html::a('Табличный', ['', 'viewType' => 'table'], ['class' => 'list-group-item' . ($viewType === 'table' ? ' list-group-item-info' : '')]) ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" role="tab" id="headingSearch">
+                            <div class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
                                     Поиск
                                 </a>
                             </div>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSearch">
                             <div class="panel-body">
                                 <?php $form = ActiveForm::begin(['method' => 'GET','options' => ['data-pjax' => '1']]) ?>
                                     <?php if ($cur === 'all'): ?>
@@ -71,14 +118,14 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
                     </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading" role="tab" id="headingTwo">
+                        <div class="panel-heading" role="tab" id="headingSort">
                             <div class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
                                     Сортировка
                                 </a>
                             </div>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div id="collapseSort" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSort">
                             <div class="list-group">
                                 <?= $sort->link('name', ['class' => 'list-group-item']) ?>
                                 <?= $sort->link('description', ['class' => 'list-group-item']) ?>
@@ -89,17 +136,18 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
 
                     <?php if ($cur === 'own'): ?>
                         <div class="panel panel-primary">
-                            <div class="panel-heading" role="tab" id="headingThree">
+                            <div class="panel-heading" role="tab" id="headingStatistic">
                                 <div class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseStatistic" aria-expanded="false" aria-controls="collapseStatistic">
                                         Статистика
                                     </a>
                                 </div>
                             </div>
-                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div id="collapseStatistic" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingStatistic">
                                 <ul class="list-group">
                                     <li class="list-group-item break-word">За день создано <?= $notesCountDay ?> заметок.</li>
                                     <li class="list-group-item break-word">За месяц создано <?= $notesCountMonth ?> заметок.</li>
+                                </ul>
                             </div>
                         </div>
                     <?php endif ?>
