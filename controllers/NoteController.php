@@ -30,7 +30,8 @@ class NoteController extends Controller
         $noteSearch->setScenario('all');
         $noteProvider = $noteSearch->search(Yii::$app->request->queryParams, ['visibility' => Note::VIS_PUBLIC_LISTED]);
 
-        return $this->render('index', [
+        return $this->render('/notes', [
+            'cur' => 'all',
             'notes' => $noteProvider->getModels(),
             'pagination' => $noteProvider->pagination,
             'sort' => $noteProvider->sort,

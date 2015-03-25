@@ -74,7 +74,8 @@ class SiteController extends Controller
         $beginOfCurMonth = \DateTime::createFromFormat('Y-n-j H:i:s', $curDate['year'] . '-' . $curDate['mon'] . '-1 00:00:00')
             ->getTimestamp();
 
-        return $this->render('home', [
+        return $this->render('/notes', [
+            'cur' => 'own',
             'notes' => $noteProvider->getModels(),
             'pagination' => $noteProvider->pagination,
             'sort' => $noteProvider->sort,
