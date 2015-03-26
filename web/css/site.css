@@ -13,11 +13,11 @@
     overflow-wrap: break-word;
 }
 
-.note-text-preview::before, .note-text-preview::after {
+.panel-body::before, .panel-body::after {
     content: '';
 }
 
-.note-text {
+.raw-text {
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;

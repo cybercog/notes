@@ -18,59 +18,63 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
     <div class="nav-tabs-body">
         <div class="row">
             <div class="col-md-9">
-                <?php if ($viewType === 'table'): ?>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <tr class="info">
-                                <th>Название</th>
-                                <th>Описание</th>
-                                <?php if ($cur === 'all'): ?>
-                                    <th>Добавил</th>
-                                <?php endif ?>
-                                <th></th>
-                            </tr>
-                            <?php foreach ($notes as $note): ?>
-                                <tr>
-                                    <th><?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?></th>
-                                    <th><?= mb_strimwidth(Html::encode($note->description), 0, 60, '...', 'UTF-8') ?></th>
+                <?php if ($notes): ?>
+                    <?php if ($viewType === 'table'): ?>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tr class="info">
+                                    <th>Название</th>
+                                    <th>Описание</th>
                                     <?php if ($cur === 'all'): ?>
-                                        <th><?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[username]' => Html::encode($note->user->name)]) : 'гость' ?></th>
+                                        <th>Добавил</th>
                                     <?php endif ?>
-                                    <th>
-                                        <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
-                                        <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
-                                    </th>
+                                    <th></th>
                                 </tr>
-                            <?php endforeach ?>
-                        </table>
-                    </div>
-                <?php else: ?>
-                    <div class="row">
-                    <?php foreach ($notes as $note): ?>
-                        <div class="col-xs-12 col-sm-6 col-md-4 inline">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <?php if (($cur === 'all' && Yii::$app->user->can('updateNote', ['note' => $note])) || $cur === 'own'): ?>
-                                        <div class="btn-group pull-right">
+                                <?php foreach ($notes as $note): ?>
+                                    <tr>
+                                        <th><?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?></th>
+                                        <th><?= mb_strimwidth(Html::encode($note->description), 0, 60, '...', 'UTF-8') ?></th>
+                                        <?php if ($cur === 'all'): ?>
+                                            <th><?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[user.name]' => Html::encode($note->user->name)]) : 'гость' ?></th>
+                                        <?php endif ?>
+                                        <th>
                                             <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
                                             <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
-                                        </div>
-                                    <?php endif ?>
-                                    <?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?>
-                                </div>
-                                <div class="panel-body note-text-preview break-word"><?= mb_strimwidth(Html::encode($note->description), 0, 100, '...', 'UTF-8') ?></div>
-                                <?php if ($cur === 'all'): ?>
-                                    <div class="panel-footer">Добавил: <?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[username]' => Html::encode($note->user->name)]) : 'гость' ?>.</div>
-                                <?php endif ?>
-                            </div>
+                                        </th>
+                                    </tr>
+                                <?php endforeach ?>
+                            </table>
                         </div>
-                    <?php endforeach ?>
-                    </div>
-                <?php endif ?>
+                    <?php else: ?>
+                        <div class="row">
+                        <?php foreach ($notes as $note): ?>
+                            <div class="col-xs-12 col-sm-6 col-md-4 inline">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <?php if (($cur === 'all' && Yii::$app->user->can('updateNote', ['note' => $note])) || $cur === 'own'): ?>
+                                            <div class="btn-group pull-right">
+                                                <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
+                                                <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
+                                            </div>
+                                        <?php endif ?>
+                                        <?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?>
+                                    </div>
+                                    <div class="panel-body break-word"><?= mb_strimwidth(Html::encode($note->description), 0, 100, '...', 'UTF-8') ?></div>
+                                    <?php if ($cur === 'all'): ?>
+                                        <div class="panel-footer">Добавил: <?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[user.name]' => Html::encode($note->user->name)]) : 'гость' ?>.</div>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                        </div>
+                    <?php endif ?>
 
-                <div class="text-center">
-                    <?= LinkPager::widget(['pagination' => $pagination, 'options' => ['class' => 'pagination pagination-sm']]) ?>
-                </div>
+                    <div class="text-center">
+                        <?= LinkPager::widget(['pagination' => $pagination, 'options' => ['class' => 'pagination pagination-sm']]) ?>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-info">Заметок не найдено.</div>
+                <?php endif ?>
             </div>
 
             <div class="col-md-3">

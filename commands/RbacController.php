@@ -79,6 +79,14 @@ class RbacController extends Controller
         $viewAdminPanelNotes->description = 'View notes in admin panel';
         $auth->add($viewAdminPanelNotes);
 
+        $updateComment = $auth->createPermission('updateComment');
+        $updateComment->description = 'Update comment';
+        $auth->add($updateComment);
+
+        $deleteComment = $auth->createPermission('deleteComment');
+        $deleteComment->description = 'Delete comment';
+        $auth->add($deleteComment);
+
 
         //Roles
         $guest = $auth->createRole('guest');
@@ -103,6 +111,8 @@ class RbacController extends Controller
         $auth->addChild($admin, $editUser);
         $auth->addChild($admin, $deleteUser);
         $auth->addChild($admin, $viewAdminPanelNotes);
+        $auth->addChild($admin, $updateComment);
+        $auth->addChild($admin, $deleteComment);
         $auth->addChild($admin, $user);
     }
 }

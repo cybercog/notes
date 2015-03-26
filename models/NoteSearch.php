@@ -44,12 +44,12 @@ class NoteSearch extends Note
         }
 
         if ($this->load($params) && $this->validate()) {
-            $query->andFilterWhere(['like', 'note.name', $this->name]);
+            $query->andFilterWhere(['like', 'note.name', $this->name])
+                ->andFilterWhere(['like', 'user.name', $this['user.name']]);
 
             if ($isAdminPanel) {
-                $query->andFilterWhere(['note.id' => $this->id]);
-                $query->andFilterWhere(['visibility' => $this->visibility]);
-                $query->andFilterWhere(['like', 'user.name', $this['user.name']]);
+                $query->andFilterWhere(['note.id' => $this->id])
+                    ->andFilterWhere(['visibility' => $this->visibility]);
 
                 if (preg_match('/[\d]{2}-[\d]{2}-[\d]{4}/', $this->created_at)) {
                     $query->andFilterWhere([

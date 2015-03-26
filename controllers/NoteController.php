@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use app\models\NoteSearch;
+use app\models\Comment;
 use yii\web\Cookie;
 
 class NoteController extends Controller
@@ -54,7 +55,11 @@ class NoteController extends Controller
 
     public function actionView($id)
     {
-        $note = $this->findNote($id);
+        $note = Note::find()->where(['id' => $id])->with('comments')->with('user')->one();
+
+        if (!$note) {
+            throw new NotFoundHttpException;
+        }
 
         if (Yii::$app->user->can('viewNote', ['note' => $note])) {
             $query = Note::find()->with('user');
@@ -69,10 +74,21 @@ class NoteController extends Controller
                 ->orderBy('created_at ASC, id ASC')
                 ->one();
 
+            $comment = new Comment;
+            if ($comment->load(Yii::$app->request->post()) && $comment->validate()) {
+                $comment->user_id = Yii::$app->user->getId();
+                $comment->note_id = $note->id;
+
+                $comment->save(false);
+
+                return $this->refresh();
+            }
+
             return $this->render('view', [
                 'note' => $note,
                 'previousNote' => $previousNote,
-                'nextNote' => $nextNote
+                'nextNote' => $nextNote,
+                'comment' => $comment
             ]);
         } else {
             throw new ForbiddenHttpException;
