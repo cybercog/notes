@@ -32,15 +32,15 @@ $this->title = ($cur === 'all') ? 'Заметки пользователей' : 
                                 </tr>
                                 <?php foreach ($notes as $note): ?>
                                     <tr>
-                                        <th><?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?></th>
-                                        <th><?= mb_strimwidth(Html::encode($note->description), 0, 60, '...', 'UTF-8') ?></th>
+                                        <td><?= Html::a(mb_strimwidth(Html::encode($note->name), 0, 18, '...', 'UTF-8'), ['note/view', 'id' => $note->id]) ?></td>
+                                        <td><?= mb_strimwidth(Html::encode($note->description), 0, 60, '...', 'UTF-8') ?></td>
                                         <?php if ($cur === 'all'): ?>
-                                            <th><?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[user.name]' => Html::encode($note->user->name)]) : 'гость' ?></th>
+                                            <td><?= $note->user ? Html::a(Html::encode($note->user->name), ['note/index', 'NoteSearch[user.name]' => Html::encode($note->user->name)]) : 'гость' ?></td>
                                         <?php endif ?>
-                                        <th>
+                                        <td>
                                             <?= Html::a('', ['note/update', 'id' => $note->id], ['class' => 'glyphicon glyphicon-cog btn btn-info btn-xs']) ?>
                                             <?= Html::a('', ['note/delete', 'id' => $note->id], ['class' => 'glyphicon glyphicon-remove btn btn-danger btn-xs', 'data-method' => 'post']) ?>
-                                        </th>
+                                        </td>
                                     </tr>
                                 <?php endforeach ?>
                             </table>
