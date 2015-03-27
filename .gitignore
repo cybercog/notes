@@ -2,6 +2,7 @@
 .idea
 config/compiler.jar
 config/yuicompressor.jar
+config/assets-prod.php
 
 # netbeans project files
 nbproject
