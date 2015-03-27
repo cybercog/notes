@@ -9,19 +9,19 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
-        'assetManager' => [
-            'bundles' => require(__DIR__ . '/assets-prod.php')
-        ],
+//        'assetManager' => [
+//            'bundles' => require(__DIR__ . '/assets-prod.php')
+//        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest'],
-            'cache' => 'cache'
+//            'cache' => 'cache'
         ],
-        'cache' => [
-            'class' => 'yii\caching\DbCache',
-            'db' => 'db',
-            'cacheTable' => 'cache',
-        ],
+//        'cache' => [
+//            'class' => 'yii\caching\DbCache',
+//            'db' => 'db',
+//            'cacheTable' => 'cache',
+//        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
