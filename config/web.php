@@ -44,8 +44,7 @@ $config = [
                 'users/<id:\d+>/edit' => 'user/update',
                 'users/<id:\d+>/delete' => 'user/delete',
                 'comment/<id:\d+>/edit' => 'comment/update',
-                'comment/<id:\d+>/delete' => 'comment/delete',
-                'comment/create' => 'comment/create'
+                'comment/<id:\d+>/delete' => 'comment/delete'
             ]
         ],
         'request' => [

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use app\models\Note;
 use yii\web\NotFoundHttpException;
@@ -10,6 +11,7 @@ use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use app\models\NoteSearch;
 use app\models\Comment;
+use app\models\CommentClosure;
 use yii\web\Cookie;
 
 class NoteController extends Controller
@@ -76,10 +78,16 @@ class NoteController extends Controller
 
             $comment = new Comment;
             if ($comment->load(Yii::$app->request->post()) && $comment->validate()) {
+                $parentId = Yii::$app->request->post('parentId');
+                if ($parentId !== null && (CommentClosure::find()->where(['child_id' => $parentId])->max('depth') >= Yii::$app->params['maxCommentsDepth'])) {
+                    throw new ForbiddenHttpException;
+                }
+
                 $comment->user_id = Yii::$app->user->getId();
                 $comment->note_id = $note->id;
-
                 $comment->save(false);
+
+                CommentClosure::insertComment($comment->id, $parentId);
 
                 return $this->refresh();
             }

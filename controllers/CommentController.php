@@ -23,27 +23,6 @@ class CommentController extends Controller
         ];
     }
 
-    public function actionCreate($noteId, $parentId = null)
-    {
-        $comment = new Comment;
-
-        if ($comment->load(Yii::$app->request->post()) && $comment->validate()) {
-            if ($parentId !== null && (CommentClosure::find()->where(['child_id' => $parentId])->max('depth') >= Yii::$app->params['maxCommentsDepth'])) {
-                throw new ForbiddenHttpException;
-            }
-
-            $comment->user_id = Yii::$app->user->getId();
-            $comment->note_id = $noteId;
-            $comment->save(false);
-
-            CommentClosure::insertComment($comment->id, $parentId);
-
-            return $this->redirect(['note/view', 'id' => $noteId]);
-        }
-
-        return $this->render('create', ['comment' => $comment]);
-    }
-
     public function actionUpdate($id)
     {
         if (Yii::$app->user->can('updateComment')) {

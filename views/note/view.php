@@ -48,7 +48,9 @@ $this->title = 'Заметка - ' . Html::encode($note->name);
                                 <div class="panel-heading">
                                     <div class="btn-group pull-right">
                                         <?php if ($comment['depth'] < Yii::$app->params['maxCommentsDepth']): ?>
-                                            <?= Html::a('<span class="glyphicon glyphicon-comment"></span> Ответить', ['comment/create', 'noteId' => $note->id, 'parentId' => $comment['comment']->id], ['class' => 'btn btn-success btn-xs']) ?>
+                                            <button type="button" class="btn btn-success btn-xs note-comment" data-id="<?= $comment['comment']->id ?>">
+                                                <span class="glyphicon glyphicon-comment"></span> Ответить
+                                            </button>
                                         <?php endif ?>
                                         <?php if (Yii::$app->user->can('updateComment')): ?>
                                             <?= Html::a('<span class="glyphicon glyphicon-cog"></span> Изменить', ['comment/update', 'id' => $comment['comment']->id], ['class' => 'btn btn-info btn-xs']) ?>
