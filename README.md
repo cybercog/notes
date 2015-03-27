@@ -30,17 +30,7 @@ return [
 
 Также вам необходимо создать таблицы для хранения данных с помощью команды `./yii migrate 6 && ./yii migrate --migrationPath=@yii/rbac/migrations && ./yii rbac/init`
 
-### 3. Шифрования cookies
-
-По умолчанию включено шифрование кук с помощью специального ключа. В файле `config/web.php` замените значение `cookieValidationKey` на любое своё. Например:
-
-```php
-'request' => [
-    'cookieValidationKey' => 'qwerty',
-]
-```
-
-### 4. Улучшение производительности
+### 3. Улучшение производительности
 
 * Скачайте и распакуйте https://developers.google.com/closure/compiler/ и https://github.com/yui/yuicompressor/ в корень проекта под названиями compiler.jar и yuicompressor.jar, соответственно.
 
