@@ -15,13 +15,13 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest'],
-//            'cache' => 'cache'
+            'cache' => 'cache'
         ],
-//        'cache' => [
-//            'class' => 'yii\caching\DbCache',
-//            'db' => 'db',
-//            'cacheTable' => 'cache',
-//        ],
+        'cache' => [
+            'class' => 'yii\caching\DbCache',
+            'db' => 'db',
+            'cacheTable' => 'cache',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

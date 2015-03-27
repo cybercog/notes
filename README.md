@@ -28,4 +28,18 @@ return [
 ];
 ```
 
-Также вам необходимо создать таблицы для хранения данных с помощью команды `./yii migrate 3 && ./yii migrate --migrationPath=@yii/rbac/migrations && ./yii rbac/init`
+Также вам необходимо создать таблицы для хранения данных с помощью команды `./yii migrate 6 && ./yii migrate --migrationPath=@yii/rbac/migrations && ./yii rbac/init`
+
+### 3. Улучшение производительности
+
+* Скачайте и распакуйте https://developers.google.com/closure/compiler/ и https://github.com/yui/yuicompressor/ в корень проекта под названиями compiler.jar и yuicompressor.jar, соответственно.
+
+* Необходимо скомпилировать css и js файлы с помощью команды `./yii asset assets.php config/assets-prod.php`
+
+* В файле `config/web.php` раскомментируйте
+
+```php
+'assetManager' => [
+    'bundles' => require(__DIR__ . '/assets-prod.php')
+]
+```
