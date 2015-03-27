@@ -1,5 +1,7 @@
 # phpstorm project files
 .idea
+config/compiler.jar
+config/yuicompressor.jar
 
 # netbeans project files
 nbproject

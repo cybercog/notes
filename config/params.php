@@ -2,6 +2,6 @@
 
 return [
     'supportEmail' => 'admin@example.com',
-    'user.passwordResetTokenExpire' => 3600,
-    'maxCommentsDepth' => 3
+    'user.passwordResetTokenExpire' => 3600, //1 hour
+    'maxCommentsDepth' => 3 //0 to turn off
 ];
