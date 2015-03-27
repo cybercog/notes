@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use app\models\Comment;
 
 class Note extends ActiveRecord
 {
@@ -61,5 +62,10 @@ class Note extends ActiveRecord
     public function getComments()
     {
         return $this->hasMany(Comment::className(), ['note_id' => 'id']);
+    }
+
+    public function getCommentsTree()
+    {
+        return Comment::findCommentsTree($this->id);
     }
 }
